@@ -1,4 +1,4 @@
-#Collaborate with Gene
+#Collaborate with Gene and Taetae
 # -----------------------------------
 # Helper code
 # You don't need to understand this helper code,
@@ -63,7 +63,7 @@ def is_word_guessed(secret_word, letters_guessed):
 
 
 ### Testcases
-print(is_word_guessed('apple', ['a', 'e', 'i', 'k', 'p', 'r', 's']))
+#print(is_word_guessed('apple', ['a', 'e', 'i', 'k', 'p', 'r', 's']))
 # print(is_word_guessed('durian', ['h', 'a', 'c', 'd', 'i', 'm', 'n', 'r', 't', 'u']))
 # print(is_word_guessed('pineapple', []))
 
@@ -103,7 +103,7 @@ def get_guessed_word(secret_word, letters_guessed):
     
       
 #Testcases
-print(get_guessed_word('apple', ['e', 'i', 'k', 'p', 'r', 's']))
+#print(get_guessed_word('apple', ['e', 'i', 'k', 'p', 'r', 's']))
 # print(get_guessed_word('durian', ['a', 'c', 'd', 'h', 'i', 'm', 'n', 'r', 't', 'u']))
 
 def get_available_letters(letters_guessed):
@@ -112,13 +112,17 @@ def get_available_letters(letters_guessed):
     returns: string, comprised of letters that represents what letters have not
       yet been guessed.
     '''
-    # FILL IN YOUR CODE HERE...   
+    import string
+    alphabet = string.ascii_lowercase
+    for letter in letters_guessed:
+      alphabet = alphabet.replace(letter,'')
+    return alphabet 
   
 
 
 
 #Testcases 
-print( get_available_letters(['e', 'i', 'k', 'p', 'r', 's']) )
+#print( get_available_letters(['e', 'i', 'k', 'p', 'r', 's']) )
   
 def game_loop(secret_word):
     '''
@@ -140,7 +144,32 @@ def game_loop(secret_word):
 
     Follows the other limitations detailed in the problem write-up.
     '''
-    # FILL IN YOUR CODE HERE...
+    guess_remaining = 8
+    letter_guessed = []
+    print ("Let the game begin!")
+    print ("")
+    print ("I am thinking of a word with", len(secret_word), "letters")
+
+    while is_word_guessed(secret_word, letter_guessed) == False and guess_remaining > 0:
+      print("You have", guess_remaining, "guesses remaining")
+      print("Letters available to you:", get_available_letters(letter_guessed))
+      guess_a_letter = input("Guess a letter:").lower()
+
+      if (guess_a_letter in get_available_letters(letter_guessed)):
+        letter_guessed.append(guess_a_letter)
+      else:
+        print("You fool", get_guessed_word(secret_word, letter_guessed))
+
+      if (guess_a_letter in secret_word):
+        print("Correct:", get_guessed_word(secret_word, letter_guessed))
+      else:
+        print("Incorrect, this letter is not in my word:", get_guessed_word(secret_word, letter_guessed))
+        guess_remaining -= 1
+
+    if (is_word_guessed(secret_word, letter_guessed)):
+      print ("You WIN")
+    else :
+      print("GAME OVER ! The word was",(secret_word))
  
 
 
